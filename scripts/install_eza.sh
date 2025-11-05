@@ -7,6 +7,8 @@ if [ "${EUID:-$(id -u)}" -ne 0 ]; then
   exit 1
 fi
 
+cd /tmp
+
 # Installer les outils de compilation nécessaires pour eza
 dnf -y install cargo rust gcc make pkgconfig openssl-devel libgit2-devel
 
@@ -14,5 +16,8 @@ dnf -y install cargo rust gcc make pkgconfig openssl-devel libgit2-devel
 git clone https://github.com/eza-community/eza.git
 cd eza
 cargo install --path .
+
+echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
 
 echo "eza a été installé avec succès."
